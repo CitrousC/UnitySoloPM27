@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Weapons : MonoBehaviour
 {
@@ -29,41 +30,87 @@ public class Weapons : MonoBehaviour
     [Header("Ammo Stats")]
     public int ammo;
     public int maxAmmo;
-    public ammoRefill;
+    public  int ammoRefill;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-     
+        firePoint = transform.GetChild(0);
+        firingDirection = Camera.main;
     }
-    public void equip()
-    { 
-    
-    }
-    
-    public void unequip()
+    public void equip(PlayerController p)
     {
+        player = p;
 
+        player.currentWeapon = this;
+
+        transform.SetLocalPositionAndRotation(player.weaponSlot.position, player.weaponSlot.rotation);
+        transform.SetParent(player.weaponSlot);
+
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Collider>().isTrigger = true;
+        
+    }
+
+    public void weaponDrop()
+    {
+        player.currentWeapon = null;
+
+        transform.SetParent(null); 
+
+        GetComponent<Rigidbody>().isKinematic=false;
+        GetComponent<Collider>().isTrigger = false;
+
+        player = null;
     }
     public void reload()
-    { 
-    
+    {
+        if (clip >= clipSize)
+            return;
+
+        int reloadCount = clipSize - clip;
+
+        if (ammo < reloadCount)
+        {
+            clip += ammo;
+            ammo = 0;
+        }
+        else
+        {
+            clip += reloadCount;
+            ammo -= reloadCount;
+        }
+
+        canFire = false;
+        reloading = true;
+        StartCoroutine("reloadingCooldown");
     }
     public void fire()
     { 
-   
-    }
-    IEnumerator burstDuration()
-    {
+   if (clipSize > 0 && canFire && !reloading)
+        {
+            clip--;
 
+            GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
+            p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
+            Destroy(p, projLifespan);
+            canFire = false;
+            StartCoroutine("cooldownFire");
+
+        }
     }
     IEnumerator cooldownFire()
     {
+        yield return new WaitForSeconds(rof);
+
+        if(clip>0)
+        canFire = true;
 
     }
     IEnumerator reloadingCooldown()
     {
+        yield return new WaitForSeconds(reloadCooldown);
 
+        reloading = false;
+        canFire = true;
     }
-
-    IEnumerator ADSTime()
-}
+    }
