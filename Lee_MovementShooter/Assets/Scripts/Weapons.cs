@@ -15,15 +15,19 @@ public class Weapons : MonoBehaviour
     public bool canFire = true;
     public bool holdToAttack = true;
     public bool reloading = false;
+    public bool knockBackOn = false;
     public int weaponID;
     public string weaponName;
+    
 
     [Header("Weapon Stats")]
     public float projLifespan;
     public float projVelocity;
     public float reloadCooldown;
     public float rof;
-    public int fireModes;
+    public float knockBackRadius = 3;
+    public int fireModes = 2;
+    public int currentFireMode = 0;
     public int clip;
     public int clipSize;
 
@@ -51,6 +55,10 @@ public class Weapons : MonoBehaviour
         
     }
 
+    /*
+     
+
+    */
     public void weaponDrop()
     {
         player.currentWeapon = null;
@@ -86,18 +94,43 @@ public class Weapons : MonoBehaviour
     }
     public void fire()
     { 
-   if (clipSize > 0 && canFire && !reloading)
+        if (clipSize > 0 && canFire && !reloading)
         {
             clip--;
-
             GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
             p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
             Destroy(p, projLifespan);
             canFire = false;
             StartCoroutine("cooldownFire");
 
+            if (knockBackOn)
+            {
+                player.GetComponent<Rigidbody>().AddForce(transform.forward * -projVelocity, ForceMode.Impulse);
+            }
+
         }
     }
+
+    public void SwitchFireMode()
+    {
+        currentFireMode++;
+
+        if (currentFireMode >= fireModes)
+        {
+            currentFireMode = 0;
+        }
+
+        if (currentFireMode == 0)
+        {
+            knockBackOn = false;
+        }
+
+        if (currentFireMode == 1)
+        {
+            knockBackOn = true;
+        }
+    }
+
     IEnumerator cooldownFire()
     {
         yield return new WaitForSeconds(rof);

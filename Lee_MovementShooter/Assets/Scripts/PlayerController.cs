@@ -1,14 +1,23 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    public int health = 5;
+    public int maxHealth = 5;
+
     public float speed = 5.0f;
     public float jumpHeight = 10.0f;
     public float jumpDetectDistance = 1f;
     public float interactDistance = 5f;
+    public float fusionDmgInterval = 1;
+
 
     public bool attacking = false;
+    public bool fusionDmg = false;
 
     Ray jumpRay;
     Ray interactRay;
@@ -18,10 +27,10 @@ public class PlayerController : MonoBehaviour
     public Weapons currentWeapon;
 
     Camera playerCam;
-   public Transform weaponSlot;
+    public Transform weaponSlot;
     PlayerInput input;
     Rigidbody rb;
-    GameObject pickupObj;
+    public GameObject pickupObj;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -50,15 +59,20 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        if (health <= 0)
+        {
+
+        }
+
         jumpRay.origin = transform.position;
         jumpRay.direction = -transform.up;
 
         interactRay.origin = playerCam.transform.position;
         interactRay.direction = playerCam.transform.forward;
 
-        if(Physics.Raycast(interactRay, out interactHit, interactDistance))
-            {
-            if (interactHit.collider.tag == "Weapon")
+        if (Physics.Raycast(interactRay, out interactHit, interactDistance))
+        {
+            if (interactHit.collider.tag == "Weapon" || interactHit.collider.tag == "Ammo")
             {
                 pickupObj = interactHit.collider.gameObject;
             }
@@ -70,7 +84,7 @@ public class PlayerController : MonoBehaviour
             if (currentWeapon.holdToAttack && attacking)
                 currentWeapon.fire();
 
-            Vector3 tempMove = rb.linearVelocity;
+        Vector3 tempMove = rb.linearVelocity;
 
         tempMove.x = moveInput.x * speed;
         tempMove.z = moveInput.y * speed;
@@ -90,7 +104,6 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(jumpRay, jumpDetectDistance))
             rb.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
     }
-
     public void Interact(InputAction.CallbackContext context)
     {
         if (context.ReadValueAsButton())
@@ -101,23 +114,47 @@ public class PlayerController : MonoBehaviour
                 {
                     pickupObj.GetComponent<Weapons>().equip(this);
                 }
-                pickupObj = null;
 
+                // Interact to pickup ammo
+
+                if (pickupObj.tag == "Ammo" && currentWeapon && currentWeapon.ammo < currentWeapon.maxAmmo)
+                {
+                    int refillAmt = currentWeapon.ammo + currentWeapon.ammoRefill;
+
+                    if (refillAmt >= currentWeapon.maxAmmo)
+                    {
+                        currentWeapon.ammo = currentWeapon.maxAmmo;
+                    }
+                    else
+                        currentWeapon.ammo += currentWeapon.ammoRefill;
+
+                    Destroy(pickupObj);
+                }
+
+
+                pickupObj = null;
             }
             else if (currentWeapon)
                 Reload();
         }
     }
+
+    public void SwitchFireMode()
+    {
+        if(currentWeapon)
+            currentWeapon.SwitchFireMode();
+    }
+
     public void Reload()
     {
         if (currentWeapon)
             if (!currentWeapon.reloading)
-        currentWeapon.reload();
+                currentWeapon.reload();
     }
 
     public void Attack(InputAction.CallbackContext context)
     {
-        if(currentWeapon)
+        if (currentWeapon)
         {
             if (currentWeapon.holdToAttack)
             {
@@ -130,15 +167,84 @@ public class PlayerController : MonoBehaviour
                 currentWeapon.fire();
         }
     }
-    //For whatever reason the game changes and you can drop weapons
-   /*
-    public void DropWeapon()
-    {
-        if(currentWeapon)
-        {
-            currentWeapon.GetComponent<Weapons>().unequip();
-        }
-    }    
-   */
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ammo" && currentWeapon && currentWeapon.ammo < currentWeapon.maxAmmo)
+        {
+            int refillAmt = currentWeapon.maxAmmo - currentWeapon.ammo;
+            if (refillAmt >= currentWeapon.maxAmmo)
+            {
+                currentWeapon.ammo = currentWeapon.maxAmmo;
+
+            }
+            Destroy(pickupObj);
+        }
+        if (collision.gameObject.tag == "Hazard")
+        {
+            health--;
+        }
+
+        if (collision.gameObject.tag == "Health" && health < maxHealth)
+        {
+            health++;
+
+            Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "LevelEnd")
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
 }
+    
+            /*
+      private void OnCollisionStay(Collision collision)
+
+         For if you need A Fusion HAzard
+    {
+        if (collision.gameobject.tag == "FusionHazard")
+        {
+            if(!fusionDmg)
+            {
+                StartCoroutine("fusionDmgCooldown");
+            }
+        }
+
+    }
+
+   
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "FusionHazard")
+        {  if(fusionDmg)
+            {
+                StopCoroutine("fusionDmgCooldown");
+                fusionDmg = false;
+
+            }
+        }
+        IEnumerator fusionDmgCooldown()
+            {
+            fusionDmg = true;
+            yield return new WaitForSeconds(fusionDmgInterval);
+            health--;
+            fusionDmg = false;
+        }
+    */
+ 
+
+        //For whatever reason the game changes and you can drop weapons
+        /*
+         public void DropWeapon()
+         {
+             if(currentWeapon)
+             {
+                 currentWeapon.GetComponent<Weapons>().unequip();
+             }
+         }    
+        */
