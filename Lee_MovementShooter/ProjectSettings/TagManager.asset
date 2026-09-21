@@ -9,6 +9,9 @@ TagManager:
   - Projcetile
   - Hazard
   - Health
+  - Projectile
+  - AmmoText
+  - HealthBar
   layers:
   - Default
   - TransparentFX

@@ -18,6 +18,7 @@ public class Weapons : MonoBehaviour
     public bool knockBackOn = false;
     public int weaponID;
     public string weaponName;
+    public int knockbackPlayer;
     
 
     [Header("Weapon Stats")]
@@ -105,7 +106,8 @@ public class Weapons : MonoBehaviour
 
             if (knockBackOn)
             {
-                player.GetComponent<Rigidbody>().AddForce(transform.forward * -projVelocity, ForceMode.Impulse);
+                Destroy(p);
+                player.GetComponent<Rigidbody>().AddExplosionForce(knockbackPlayer, firingDirection.transform.GetChild(1).position, knockBackRadius);
             }
 
         }
