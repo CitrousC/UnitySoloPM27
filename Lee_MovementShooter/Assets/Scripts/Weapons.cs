@@ -31,6 +31,7 @@ public class Weapons : MonoBehaviour
     public int currentFireMode = 0;
     public int clip;
     public int clipSize;
+    public int momentumReset;
 
     [Header("Ammo Stats")]
     public int ammo;
@@ -94,7 +95,7 @@ public class Weapons : MonoBehaviour
         StartCoroutine("reloadingCooldown");
     }
     public void fire()
-    { 
+    {
         if (clipSize > 0 && canFire && !reloading)
         {
             clip--;
@@ -106,10 +107,18 @@ public class Weapons : MonoBehaviour
 
             if (knockBackOn)
             {
-                Destroy(p);
-                player.GetComponent<Rigidbody>().AddExplosionForce(knockbackPlayer, firingDirection.transform.GetChild(1).position, knockBackRadius);
-            }
+                //if (player.GetComponent<Rigidbody>().linearVelocity.y >= 0)
+                
+                    Destroy(p);
+                    player.GetComponent<Rigidbody>().AddExplosionForce(knockbackPlayer, firingDirection.transform.GetChild(1).position, knockBackRadius);
+                
+                /*else
+                {
+                    Destroy(p);
+                    player.GetComponent<Rigidbody>().linearVelocity = new Vector3(knockbackPlayer, momentumReset, knockBackRadius);
+                }*/
 
+            }
         }
     }
 

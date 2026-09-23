@@ -12,6 +12,7 @@ TagManager:
   - Projectile
   - AmmoText
   - HealthBar
+  - Enemy
   layers:
   - Default
   - TransparentFX
