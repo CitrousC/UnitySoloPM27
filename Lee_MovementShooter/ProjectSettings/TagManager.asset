@@ -13,6 +13,7 @@ TagManager:
   - AmmoText
   - HealthBar
   - Enemy
+  - AttackHitbox
   layers:
   - Default
   - TransparentFX

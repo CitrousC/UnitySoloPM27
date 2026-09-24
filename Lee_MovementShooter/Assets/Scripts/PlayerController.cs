@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
     }
 
     private void FixedUpdate()
@@ -191,7 +192,10 @@ public class PlayerController : MonoBehaviour
 
             Destroy(collision.gameObject);
         }
-    }
+
+     
+            
+       }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -200,51 +204,54 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
+  
+
+
 }
-    
-            /*
-      private void OnCollisionStay(Collision collision)
 
-         For if you need A Fusion HAzard
-    {
-        if (collision.gameobject.tag == "FusionHazard")
-        {
-            if(!fusionDmg)
-            {
-                StartCoroutine("fusionDmgCooldown");
-            }
-        }
+/*
+private void OnCollisionStay(Collision collision)
 
-    }
+For if you need A Fusion HAzard
+{
+if (collision.gameobject.tag == "FusionHazard")
+{
+if(!fusionDmg)
+{
+    StartCoroutine("fusionDmgCooldown");
+}
+}
 
-   
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "FusionHazard")
-        {  if(fusionDmg)
-            {
-                StopCoroutine("fusionDmgCooldown");
-                fusionDmg = false;
+}
 
-            }
-        }
-        IEnumerator fusionDmgCooldown()
-            {
-            fusionDmg = true;
-            yield return new WaitForSeconds(fusionDmgInterval);
-            health--;
-            fusionDmg = false;
-        }
-    */
- 
 
-        //For whatever reason the game changes and you can drop weapons
-        /*
-         public void DropWeapon()
-         {
-             if(currentWeapon)
-             {
-                 currentWeapon.GetComponent<Weapons>().unequip();
-             }
-         }    
-        */
+private void OnCollisionExit(Collision collision)
+{
+if (collision.gameObject.tag == "FusionHazard")
+{  if(fusionDmg)
+{
+    StopCoroutine("fusionDmgCooldown");
+    fusionDmg = false;
+
+}
+}
+IEnumerator fusionDmgCooldown()
+{
+fusionDmg = true;
+yield return new WaitForSeconds(fusionDmgInterval);
+health--;
+fusionDmg = false;
+}
+*/
+
+
+//For whatever reason the game changes and you can drop weapons
+/*
+ public void DropWeapon()
+ {
+     if(currentWeapon)
+     {
+         currentWeapon.GetComponent<Weapons>().unequip();
+     }
+ }    
+*/
