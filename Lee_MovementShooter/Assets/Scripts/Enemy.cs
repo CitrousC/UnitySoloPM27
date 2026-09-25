@@ -11,12 +11,12 @@ public class Enemy : MonoBehaviour
     public int EnemymaxHealth = 3;
 
     public float detectionRange = 5;
-    public float attackCooldown = 1.5f;
+ 
     public float attackDuration = 1f;
     public NavMeshAgent agent;
     public PlayerController player;
     public Transform attackhitbox;
-    public bool Enemyattacking = false;
+   
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        attackhitbox = GameObject.FindGameObjectWithTag("AttackHitbox").transform;
+        attackhitbox = gameObject.transform.GetChild(0);
     }
 
     // Update is called once per frame
@@ -44,47 +44,14 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (Enemyattacking == true && attackhitbox.transform)
-            {
-            player.health--;
-        }
     }
- 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player" && collision.gameObject.tag =="AttackHitbox")
-        {
-            isFollowing = false;
-            StartCoroutine("AttackCooldown");
-            isFollowing = true; 
-           
-            // Run a coroutine for a cooldown so the enemy doesn't keep trying to attack the player every instance
-            // Move if they have to get back to player
-
-            // Set attacking boolean to true
-            // In update, make enemy attack and do damage to player while attacking
-        }
         if (collision.gameObject.tag == "Projectile")
         {
             Enemyhealth--;
             Destroy(collision.gameObject);
         }
-       
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            Enemyattacking = false;
-        }
-    }
-
-    IEnumerator AttackCooldown()
-    {
-     yield return new WaitForSeconds(attackCooldown);
-        Enemyattacking = true;
-        yield return new WaitForSeconds(attackDuration);
-        Enemyattacking = false;
-    } 
 }

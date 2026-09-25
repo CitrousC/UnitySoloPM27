@@ -14,6 +14,7 @@ TagManager:
   - HealthBar
   - Enemy
   - AttackHitbox
+  - LAva
   layers:
   - Default
   - TransparentFX

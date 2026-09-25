@@ -192,8 +192,10 @@ public class PlayerController : MonoBehaviour
 
             Destroy(collision.gameObject);
         }
-
-     
+        if (collision.gameObject.tag == "LAva")
+        {
+            health=0;
+        }
             
        }
 
