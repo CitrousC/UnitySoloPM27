@@ -16,9 +16,16 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent agent;
     public PlayerController player;
     public Transform attackhitbox;
-   
+
+    public bool EnemyFiring = false;
+    public Transform EfirePoint;
+    public Transform EfiringDirection;
+    public float EprojLifespan;
+    public float EprojVelocity;
+    public GameObject Enemyprojectile;
 
 
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

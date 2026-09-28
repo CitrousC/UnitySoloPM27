@@ -14,8 +14,9 @@ public class PlayerController : MonoBehaviour
     public float jumpDetectDistance = 1f;
     public float interactDistance = 5f;
     public float fusionDmgInterval = 1;
+    public float EnemyattackCooldown = 2;
 
-
+    public bool Enemyattacking = false;
     public bool attacking = false;
     public bool fusionDmg = false;
 
@@ -206,8 +207,37 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
-  
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "AttackHitbox")
+        {
+            if (!Enemyattacking)
+            {
+                StartCoroutine("AttackCooldown");
+            }
+        }
+    }
 
+
+    private void  OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "AttackHitbox")
+        {
+            Enemyattacking = false;
+            StopCoroutine("AttackCooldown");
+
+        }
+    }
+
+
+    IEnumerator AttackCooldown()
+    {
+        Enemyattacking = true;
+        yield return new WaitForSeconds(EnemyattackCooldown);
+        health--;
+        Enemyattacking = false;
+
+    }
 
 }
 
