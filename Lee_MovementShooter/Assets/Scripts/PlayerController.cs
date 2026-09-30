@@ -6,14 +6,30 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("PlayerStats")]
     public int health = 5;
     public int maxHealth = 5;
-
     public float speed = 5.0f;
     public float jumpHeight = 10.0f;
+    public float stamina = 100f;
+    public float maxStamina = 100f;
+    public float sprintCost = 25;
+    public float staminaregen = 15;
+    public float sprintBoost = 2.0f;
+
+    [Header("Meta Stats")]
+    public float sprintCD = 1;
     public float jumpDetectDistance = 1f;
     public float interactDistance = 5f;
     public float fusionDmgInterval = 1;
+    public bool onGround = true;
+    public bool sprinting = false;
+    public bool canSprint = true;
+    public bool regenStamina = false;
+    public bool toggleSprint = true;
+    public bool sprintlock = false;
+
+
     public float EnemyattackCooldown = 2;
 
     public bool Enemyattacking = false;
@@ -59,8 +75,7 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-
+    { 
         if (health <= 0)
         {
 
@@ -68,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
         jumpRay.origin = transform.position;
         jumpRay.direction = -transform.up;
+        onGround = Physics.Raycast(jumpRay, jumpDetectDistance);
 
         interactRay.origin = playerCam.transform.position;
         interactRay.direction = playerCam.transform.forward;
@@ -90,12 +106,73 @@ public class PlayerController : MonoBehaviour
 
         tempMove.x = moveInput.x * speed;
         tempMove.z = moveInput.y * speed;
+        
+        if (sprinting)
+        {
+            if (stamina > 0)
+            {
+                tempMove.z *= sprintBoost;
 
+                stamina -= sprintCost * Time.deltaTime;
+
+                StopCoroutine("sprintReset");
+                regenStamina = false;
+                if(stamina <= 0)
+                {
+                    canSprint = false;
+                    sprinting = false;
+                    stamina = 0;
+                }
+            }
+            if (moveInput.y < .75f)
+            {
+                canSprint = false;
+                sprinting = false;
+            }
+        }
+
+        if (!sprinting)
+        {
+            if (!canSprint && !sprintlock)
+                StartCoroutine("sprintReset");
+            if (canSprint && !regenStamina)
+                regenStamina = true;
+            if (regenStamina)
+            {
+                stamina += staminaregen * Time.deltaTime;
+                if (stamina >= maxStamina)
+                {
+                    stamina = maxStamina;
+                    regenStamina = false;
+                }
+            }
+        }
         rb.linearVelocity = (tempMove.x * transform.right) +
                             (tempMove.y * transform.up) +
                             (tempMove.z * transform.forward);
     }
 
+    public void sprint(InputAction.CallbackContext context)
+    {
+        if(canSprint && (moveInput.y >= .75f) && onGround)
+        {
+            if (!toggleSprint)
+            {
+                if (context.ReadValueAsButton())
+                    sprinting = true;
+                else
+                {
+                    sprinting = false;
+                    canSprint = false;
+
+                }
+            }
+            else
+                if (context.performed)
+                    sprinting = !sprinting;
+        }
+
+    }
     public void Move(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
@@ -103,7 +180,7 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if (Physics.Raycast(jumpRay, jumpDetectDistance))
+        if (onGround)
             rb.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
     }
     public void Interact(InputAction.CallbackContext context)
@@ -169,6 +246,13 @@ public class PlayerController : MonoBehaviour
                 currentWeapon.fire();
         }
     }
+    public void DropWeapon()
+    {
+        if (currentWeapon)
+        {
+            currentWeapon.GetComponent<Weapons>().unequip();
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -184,6 +268,12 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.gameObject.tag == "Hazard")
         {
+            health--;
+        }
+
+        if (collision.gameObject.tag == "EnemyProjectile")
+        {
+            Destroy(collision.gameObject);
             health--;
         }
 
@@ -239,6 +329,20 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    IEnumerator sprintReset()
+    {
+        sprintlock = true;
+        regenStamina = false;
+
+        yield return new WaitForSeconds(sprintCD);
+
+        canSprint = true;
+        regenStamina = true;
+        sprintlock = false;
+
+           
+    }
+
 }
 
 /*
@@ -278,12 +382,5 @@ fusionDmg = false;
 
 
 //For whatever reason the game changes and you can drop weapons
-/*
- public void DropWeapon()
- {
-     if(currentWeapon)
-     {
-         currentWeapon.GetComponent<Weapons>().unequip();
-     }
- }    
-*/
+
+ 

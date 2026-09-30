@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -5,16 +6,22 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class AdvancedEnemy : Enemy
 {
-     public GameObject projectile;
+
     public Vector3 FiringDirection; 
+    AdvancedEnemy GunEnemy;
+    public bool CanEnemyFire  = false;
+
+    public float EnemyfireCooldown = 2;
+    
     void Start()
     {
       
       player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
       EfirePoint = transform.GetChild(0);
-//target -  enemy position (Y First)
+        
+
       agent = GetComponent<NavMeshAgent>();
-       
+        
     }
 
     // Update is called once per frame
@@ -23,22 +30,23 @@ public class AdvancedEnemy : Enemy
         float targetDistance = Vector3.Distance(player.transform.position, transform.position);
         float firingRotation = 0;
 
+
+        transform.GetChild(0).LookAt(player.transform);
+        transform.GetChild(0).rotation.ToAngleAxis(out firingRotation, out FiringDirection);
+
         isFollowing = targetDistance <= detectionRange;
-       
         if (isFollowing)
         {
-            transform.GetChild(0).LookAt(player.transform);
-            transform.GetChild(0).rotation.ToAngleAxis(out firingRotation, out FiringDirection);
-
+           
             agent.destination = player.transform.position;
-           // Mathf.Atan2(player.transform.position.z - transform.position.z, player.transform.position.x - transform.position.x * Mathf.Rad2Deg);
+
 
             if (!EnemyFiring)
             {
-                
-                GameObject = Instantiate(Enemyprojectile, EfirePoint.position, EfirePoint.rotation);
-                GetComponent<Rigidbody>().AddForce(FiringDirection.transform.forward * EprojVelocity);
-                Destroy(p, EprojLifespan);
+                EnemyFiring = true;
+                GameObject e = Instantiate(Enemyprojectile, EfirePoint.position, EfirePoint.rotation);
+                e.GetComponent<Rigidbody>().AddForce(transform.forward * EprojVelocity);
+                Destroy(e, EprojLifespan);
                 StartCoroutine("EnemyFireCooldown");
 
             }
@@ -50,4 +58,9 @@ public class AdvancedEnemy : Enemy
 
 
     }
+    IEnumerator EnemyFireCooldown()
+    {
+        yield return new WaitForSeconds(EnemyfireCooldown);
+        EnemyFiring = false;
+    }    
 }

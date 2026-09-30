@@ -142,6 +142,21 @@ public class Weapons : MonoBehaviour
         }
     }
 
+
+    public void unequip()
+    {
+        player.currentWeapon = null;
+
+        transform.SetParent(null);
+
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Collider>().isTrigger = false;
+
+        player = null;
+
+    }
+
+
     IEnumerator cooldownFire()
     {
         yield return new WaitForSeconds(rof);

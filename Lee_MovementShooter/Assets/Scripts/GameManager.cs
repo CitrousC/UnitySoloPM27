@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
 
     public Image healthBar;
     public Image fireMode;
-
+    public Image staminaBar;
+    public Image sprintStatus;
     public Sprite bullet;
     public Sprite knockback;
 
@@ -20,7 +21,8 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
-
+       
+        staminaBar = GameObject.Find("SprintBar").GetComponent<Image>();
         healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
         fireMode = GameObject.Find("FireMode").GetComponent<Image>();
 
@@ -32,7 +34,9 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
-        if(player.currentWeapon)
+        staminaBar.fillAmount = player.stamina / player.maxStamina;
+        sprintStatus.enabled = player.canSprint;
+        if (player.currentWeapon)
         {
             ammoText.text = "Ammo: " + player.currentWeapon.ammo + "/" + player.currentWeapon.maxAmmo;
             clipText.text = "Clip: " + player.currentWeapon.clip + "/" + player.currentWeapon.clipSize;
