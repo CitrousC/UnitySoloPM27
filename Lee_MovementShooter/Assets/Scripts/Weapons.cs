@@ -77,6 +77,7 @@ public class Weapons : MonoBehaviour
         if (clip >= clipSize)
             return;
 
+
         int reloadCount = clipSize - clip;
 
         if (ammo < reloadCount)

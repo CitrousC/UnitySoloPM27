@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
@@ -16,18 +17,31 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI ammoText;
     public TextMeshProUGUI clipText;
 
+    public GameObject pauseMenu;
+    public bool paused = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        Time.timeScale = 1;
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
-       
-        staminaBar = GameObject.Find("SprintBar").GetComponent<Image>();
-        healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
-        fireMode = GameObject.Find("FireMode").GetComponent<Image>();
 
-        ammoText = GameObject.Find("AmmoText").GetComponent<TextMeshProUGUI>();
-        clipText = GameObject.Find("ClipText").GetComponent<TextMeshProUGUI>();
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+            pauseMenu = GameObject.FindGameObjectWithTag("Pause");
+            pauseMenu.SetActive(false);
+
+            staminaBar = GameObject.Find("SprintBar").GetComponent<Image>();
+            healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
+            fireMode = GameObject.Find("FireMode").GetComponent<Image>();
+
+            ammoText = GameObject.Find("AmmoText").GetComponent<TextMeshProUGUI>();
+            clipText = GameObject.Find("ClipText").GetComponent<TextMeshProUGUI>();
+        }
     }
 
     // Update is called once per frame
@@ -61,5 +75,50 @@ public class GameManager : MonoBehaviour
 
        
         
+    }
+
+    public void Pause()
+    {
+        paused = !paused;
+
+        pauseMenu.SetActive(paused);
+
+        Cursor.visible = paused;
+
+        if (paused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+
+            Time.timeScale = 1;
+        }
+    }
+
+    public void LoadLevel(int levelID)
+    {
+        if (levelID >= SceneManager.sceneCountInBuildSettings)
+            Debug.Log("Level ID is too high: " + levelID);
+        else
+            SceneManager.LoadScene(levelID);
+    }
+
+    public void LoadNextNevel()
+    {
+        LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void MainMenu()
+    {
+        LoadLevel(0);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

@@ -16,6 +16,7 @@ TagManager:
   - AttackHitbox
   - LAva
   - EnemyProjectile
+  - Pause
   layers:
   - Default
   - TransparentFX

@@ -60,8 +60,7 @@ public class PlayerController : MonoBehaviour
         interactRay = new Ray();
         weaponSlot = playerCam.transform.GetChild(0);
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        
         
     }
 
@@ -271,11 +270,7 @@ public class PlayerController : MonoBehaviour
             health--;
         }
 
-        if (collision.gameObject.tag == "EnemyProjectile")
-        {
-            Destroy(collision.gameObject);
-            health--;
-        }
+    
 
         if (collision.gameObject.tag == "Health" && health < maxHealth)
         {
@@ -294,7 +289,12 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "LevelEnd")
         {
-            SceneManager.LoadScene(0);
+            GameObject.Find("GameManager").GetComponent<GameManager>().LoadNextNevel();
+        }
+        if (other.gameObject.tag == "EnemyProjectile")
+        {
+            Destroy(other.gameObject);
+            health--;
         }
     }
     private void OnTriggerStay(Collider other)
