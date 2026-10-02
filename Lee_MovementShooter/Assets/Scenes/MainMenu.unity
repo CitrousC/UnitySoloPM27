@@ -850,15 +850,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   player: {fileID: 0}
-  healthBar: {fileID: 0}
-  fireMode: {fileID: 0}
-  staminaBar: {fileID: 0}
-  sprintStatus: {fileID: 0}
-  bullet: {fileID: 0}
-  knockback: {fileID: 0}
+  healthBar: {fileID: 2048995658}
+  fireMode: {fileID: 2048995658}
+  staminaBar: {fileID: 2048995658}
+  sprintStatus: {fileID: 2048995658}
+  bullet: {fileID: 7482667652216324306, guid: a96f39f2cc8c0fb47b48665b5871e0a9, type: 3}
+  knockback: {fileID: 7482667652216324306, guid: a96f39f2cc8c0fb47b48665b5871e0a9, type: 3}
   ammoText: {fileID: 0}
   clipText: {fileID: 0}
-  pauseMenu: {fileID: 0}
+  pauseMenu: {fileID: 1411454045}
   paused: 0
 --- !u!4 &1073495918
 Transform:

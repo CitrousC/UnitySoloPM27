@@ -29,50 +29,53 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
-
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
             pauseMenu = GameObject.FindGameObjectWithTag("Pause");
-            pauseMenu.SetActive(false);
+            pauseMenu.SetActive(paused);
 
             staminaBar = GameObject.Find("SprintBar").GetComponent<Image>();
             healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
             fireMode = GameObject.Find("FireMode").GetComponent<Image>();
-
             ammoText = GameObject.Find("AmmoText").GetComponent<TextMeshProUGUI>();
             clipText = GameObject.Find("ClipText").GetComponent<TextMeshProUGUI>();
+
         }
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
-        staminaBar.fillAmount = player.stamina / player.maxStamina;
-        sprintStatus.enabled = player.canSprint;
-        if (player.currentWeapon)
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            ammoText.text = "Ammo: " + player.currentWeapon.ammo + "/" + player.currentWeapon.maxAmmo;
-            clipText.text = "Clip: " + player.currentWeapon.clip + "/" + player.currentWeapon.clipSize;
-
-            fireMode.enabled = true;
-
-            if (player.currentWeapon.currentFireMode == 0)
+            healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
+            staminaBar.fillAmount = player.stamina / player.maxStamina;
+            sprintStatus.enabled = player.canSprint;
+            if (player.currentWeapon)
             {
-                fireMode.sprite = bullet;
+                ammoText.text = "Ammo: " + player.currentWeapon.ammo + "/" + player.currentWeapon.maxAmmo;
+                clipText.text = "Clip: " + player.currentWeapon.clip + "/" + player.currentWeapon.clipSize;
+
+                fireMode.enabled = true;
+
+                if (player.currentWeapon.currentFireMode == 0)
+                {
+                    fireMode.sprite = bullet;
+                }
+                else
+                {
+                    fireMode.sprite = knockback;
+                }
             }
             else
             {
-                fireMode.sprite = knockback;
+                ammoText.text = "";
+                clipText.text = "";
+                fireMode.enabled = false;
             }
         }
-        else
-        {
-            ammoText.text = "";
-            clipText.text = "";
-            fireMode.enabled = false;
-        }
-
        
         
     }
@@ -107,7 +110,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(levelID);
     }
 
-    public void LoadNextNevel()
+    public void LoadNextLevel()
     {
         LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }

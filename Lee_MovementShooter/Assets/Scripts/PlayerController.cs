@@ -289,7 +289,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "LevelEnd")
         {
-            GameObject.Find("GameManager").GetComponent<GameManager>().LoadNextNevel();
+            GameObject.Find("GameManager").GetComponent<GameManager>().LoadNextLevel();
         }
         if (other.gameObject.tag == "EnemyProjectile")
         {
