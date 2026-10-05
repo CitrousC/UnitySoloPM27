@@ -17,6 +17,7 @@ TagManager:
   - LAva
   - EnemyProjectile
   - Pause
+  - GameOver
   layers:
   - Default
   - TransparentFX

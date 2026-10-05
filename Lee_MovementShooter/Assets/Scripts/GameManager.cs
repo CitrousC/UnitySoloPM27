@@ -18,7 +18,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI clipText;
 
     public GameObject pauseMenu;
+    public GameObject gameOverMenu;
     public bool paused = false;
+    public bool gameover = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,6 +35,9 @@ public class GameManager : MonoBehaviour
 
             pauseMenu = GameObject.FindGameObjectWithTag("Pause");
             pauseMenu.SetActive(paused);
+
+            gameOverMenu = GameObject.FindGameObjectWithTag("GameOver");
+            gameOverMenu.SetActive(gameover);
 
             staminaBar = GameObject.Find("SprintBar").GetComponent<Image>();
             healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
@@ -77,11 +82,24 @@ public class GameManager : MonoBehaviour
             }
         }
        
+        if (player.health <= 0)
+        {
+            paused = false;
+            gameover = true;
+            pauseMenu.SetActive(paused);
+            gameOverMenu.SetActive(gameover);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Time.timeScale = 0;
+        }
         
     }
 
     public void Pause()
     {
+        if (!gameover)
+        { 
         paused = !paused;
 
         pauseMenu.SetActive(paused);
@@ -101,6 +119,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
         }
     }
+    }
 
     public void LoadLevel(int levelID)
     {
@@ -118,6 +137,11 @@ public class GameManager : MonoBehaviour
     public void MainMenu()
     {
         LoadLevel(0);
+    }
+
+    public void Restart()
+    {
+        LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Quit()
