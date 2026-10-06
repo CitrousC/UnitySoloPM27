@@ -18,6 +18,8 @@ TagManager:
   - EnemyProjectile
   - Pause
   - GameOver
+  - Door
+  - Button
   layers:
   - Default
   - TransparentFX
