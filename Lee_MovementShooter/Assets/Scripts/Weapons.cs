@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.UIElements;
 
 public class Weapons : MonoBehaviour
@@ -32,6 +33,7 @@ public class Weapons : MonoBehaviour
     public int clip;
     public int clipSize;
     public int momentumReset;
+    public bool shotgun;
 
     [Header("Ammo Stats")]
     public int ammo;
@@ -74,26 +76,50 @@ public class Weapons : MonoBehaviour
     }
     public void reload()
     {
-        if (clip >= clipSize)
-            return;
-
-
-        int reloadCount = clipSize - clip;
-
-        if (ammo < reloadCount)
+        if (!shotgun)
         {
-            clip += ammo;
-            ammo = 0;
+            if (clip >= clipSize)
+                return;
+
+
+            int reloadCount = clipSize - clip;
+
+            if (ammo < reloadCount)
+            {
+                
+            }
+            else
+            {
+                clip += reloadCount;
+                ammo -= reloadCount;
+            }
+
+            canFire = false;
+            reloading = true;
+            StartCoroutine("reloadingCooldown");
         }
         else
         {
-            clip += reloadCount;
-            ammo -= reloadCount;
-        }
+            if (clip >= clipSize)
+                return;
 
-        canFire = false;
-        reloading = true;
-        StartCoroutine("reloadingCooldown");
+
+            int reloadCount = clipSize - clip;
+
+            if (ammo < reloadCount)
+            {
+                clip += ammo;
+                ammo = 0;
+            }
+            else
+            {
+                StartCoroutine("shotgunReload");
+            }
+
+            canFire = false;
+            reloading = true;
+            StartCoroutine("reloadingCooldown");
+        }
     }
     public void fire()
     {
@@ -105,7 +131,7 @@ public class Weapons : MonoBehaviour
             Destroy(p, projLifespan);
             canFire = false;
             StartCoroutine("cooldownFire");
-
+            StopCoroutine("shotgunReload");
             if (knockBackOn)
             {
                 //if (player.GetComponent<Rigidbody>().linearVelocity.y >= 0)
@@ -136,6 +162,7 @@ public class Weapons : MonoBehaviour
         {
             knockBackOn = false;
         }
+
 
         if (currentFireMode == 1)
         {
@@ -173,4 +200,21 @@ public class Weapons : MonoBehaviour
         reloading = false;
         canFire = true;
     }
+
+    IEnumerator shotgunReload()
+    {
+     
+            while (clip != clipSize && ammo != 0)
+            {
+            yield return new WaitForSeconds(reloadCooldown);
+            ammo--;
+            clip++;                       
+        
+            
+            }
+            
+
+        
     }
+}
+
