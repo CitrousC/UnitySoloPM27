@@ -74,12 +74,7 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
-        if (health <= 0)
-        {
-
-        }
-
+    {       
         jumpRay.origin = transform.position;
         jumpRay.direction = -transform.up;
         onGround = Physics.Raycast(jumpRay, jumpDetectDistance);
@@ -100,55 +95,59 @@ public class PlayerController : MonoBehaviour
         if (currentWeapon)
             if (currentWeapon.holdToAttack && attacking)
                 currentWeapon.fire();
-
-        Vector3 tempMove = rb.linearVelocity;
-
-        tempMove.x = moveInput.x * speed;
-        tempMove.z = moveInput.y * speed;
-        
-        if (sprinting)
+        if (onGround)
         {
-            if (stamina > 0)
+            Vector3 tempMove = rb.linearVelocity;
+
+            tempMove.x = moveInput.x * speed;
+            tempMove.z = moveInput.y * speed;
+
+            rb.linearVelocity = (tempMove.x * transform.right) +
+                        (tempMove.y * transform.up) +
+                        (tempMove.z * transform.forward);
+
+
+            if (sprinting)
             {
-                tempMove.z *= sprintBoost;
+                if (stamina > 0)
+                {
+                    tempMove.z *= sprintBoost;
 
-                stamina -= sprintCost * Time.deltaTime;
+                    stamina -= sprintCost * Time.deltaTime;
 
-                StopCoroutine("sprintReset");
-                regenStamina = false;
-                if(stamina <= 0)
+                    StopCoroutine("sprintReset");
+                    regenStamina = false;
+                    if (stamina <= 0)
+                    {
+                        canSprint = false;
+                        sprinting = false;
+                        stamina = 0;
+                    }
+                }
+                if (moveInput.y < .75f)
                 {
                     canSprint = false;
                     sprinting = false;
-                    stamina = 0;
                 }
             }
-            if (moveInput.y < .75f)
-            {
-                canSprint = false;
-                sprinting = false;
-            }
-        }
 
-        if (!sprinting)
-        {
-            if (!canSprint && !sprintlock)
-                StartCoroutine("sprintReset");
-            if (canSprint && !regenStamina)
-                regenStamina = true;
-            if (regenStamina)
+            if (!sprinting)
             {
-                stamina += staminaregen * Time.deltaTime;
-                if (stamina >= maxStamina)
+                if (!canSprint && !sprintlock)
+                    StartCoroutine("sprintReset");
+                if (canSprint && !regenStamina)
+                    regenStamina = true;
+                if (regenStamina)
                 {
-                    stamina = maxStamina;
-                    regenStamina = false;
+                    stamina += staminaregen * Time.deltaTime;
+                    if (stamina >= maxStamina)
+                    {
+                        stamina = maxStamina;
+                        regenStamina = false;
+                    }
                 }
             }
         }
-        rb.linearVelocity = (tempMove.x * transform.right) +
-                            (tempMove.y * transform.up) +
-                            (tempMove.z * transform.forward);
     }
 
     public void sprint(InputAction.CallbackContext context)

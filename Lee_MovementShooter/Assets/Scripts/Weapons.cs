@@ -125,27 +125,75 @@ public class Weapons : MonoBehaviour
     {
         if (clipSize > 0 && canFire && !reloading)
         {
-            clip--;
-            GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
-            p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
-            Destroy(p, projLifespan);
-            canFire = false;
-            StartCoroutine("cooldownFire");
-            StopCoroutine("shotgunReload");
-            if (knockBackOn)
+            if (!shotgun)
             {
-                //if (player.GetComponent<Rigidbody>().linearVelocity.y >= 0)
-                
+                firePoint.rotation = transform.rotation;
+                clip--;
+                GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
+                p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
+                Destroy(p, projLifespan);
+                canFire = false;
+                StartCoroutine("cooldownFire");
+                StopCoroutine("shotgunReload");
+
+                if (knockBackOn)
+                {
+                    //if (player.GetComponent<Rigidbody>().linearVelocity.y >= 0)
+
                     Destroy(p);
                     player.GetComponent<Rigidbody>().AddExplosionForce(knockbackPlayer, firingDirection.transform.GetChild(1).position, knockBackRadius);
-                
-                /*else
-                {
-                    Destroy(p);
-                    player.GetComponent<Rigidbody>().linearVelocity = new Vector3(knockbackPlayer, momentumReset, knockBackRadius);
-                }*/
 
+                    /*else
+                    {
+                        Destroy(p);
+                        player.GetComponent<Rigidbody>().linearVelocity = new Vector3(knockbackPlayer, momentumReset, knockBackRadius);
+                    }*/
+
+                }
             }
+
+                if (shotgun)
+                { 
+                    if (!knockBackOn)
+                    {
+                        clip--;
+                        //repeat nine times
+                        for (int i = 0; i < 9; i++)
+                        {
+                            Quaternion ShotgunShotRotation = Quaternion.identity;
+                            ShotgunShotRotation.y = Random.Range(-0.5f, 0.5f);
+                            ShotgunShotRotation.x = 0;
+                            ShotgunShotRotation.z = Random.Range(-0.5f, 0.5f);
+                            ShotgunShotRotation.w = 0;
+                            firePoint.rotation = ShotgunShotRotation;
+                            GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
+
+
+                            p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
+                            Destroy(p, projLifespan);
+                        }
+                        canFire = false;
+                        StartCoroutine("cooldownFire");
+                        StopCoroutine("shotgunReload");
+                    }
+                        if (knockBackOn)
+                        {
+                        //if (player.GetComponent<Rigidbody>().linearVelocity.y >= 0)
+                        GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
+                        p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
+
+                        Destroy(p);
+
+                        player.GetComponent<Rigidbody>().AddExplosionForce(knockbackPlayer, firingDirection.transform.GetChild(1).position, knockBackRadius);
+
+                        /*else
+                        {
+                        Destroy(p);
+                        player.GetComponent<Rigidbody>().linearVelocity = new Vector3(knockbackPlayer, momentumReset, knockBackRadius);
+                        }*/
+
+                    }
+                }
         }
     }
 
@@ -182,6 +230,10 @@ public class Weapons : MonoBehaviour
 
         player = null;
 
+    }
+    public void Update()
+    {
+        firePoint.rotation = Quaternion.Euler(0, firePoint.rotation.y, 0);
     }
 
 
