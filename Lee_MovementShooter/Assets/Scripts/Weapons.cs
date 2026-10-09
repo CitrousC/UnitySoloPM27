@@ -106,12 +106,9 @@ public class Weapons : MonoBehaviour
 
             int reloadCount = clipSize - clip;
 
-            if (ammo < reloadCount)
-            {
-                clip += ammo;
-                ammo = 0;
-            }
-            else
+
+
+            if (clip < clipSize)
             {
                 StartCoroutine("shotgunReload");
             }
@@ -152,48 +149,42 @@ public class Weapons : MonoBehaviour
                 }
             }
 
-                if (shotgun)
-                { 
-                    if (!knockBackOn)
+            if (shotgun)
+            {
+                if (!knockBackOn)
+                {
+                    //repeat nine times
+                    for (int i = 0; i < 9; i++)
                     {
-                        clip--;
-                        //repeat nine times
-                        for (int i = 0; i < 9; i++)
-                        {
-                            Quaternion ShotgunShotRotation = Quaternion.identity;
-                            ShotgunShotRotation.y = Random.Range(-0.5f, 0.5f);
-                            ShotgunShotRotation.x = 0;
-                            ShotgunShotRotation.z = Random.Range(-0.5f, 0.5f);
-                            ShotgunShotRotation.w = 0;
-                            firePoint.rotation = ShotgunShotRotation;
-                            GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
-
-
-                            p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
-                            Destroy(p, projLifespan);
-                        }
-                        canFire = false;
-                        StartCoroutine("cooldownFire");
-                        StopCoroutine("shotgunReload");
-                    }
-                        if (knockBackOn)
-                        {
-                        //if (player.GetComponent<Rigidbody>().linearVelocity.y >= 0)
+                        Quaternion ShotgunShotRotation = Quaternion.identity;
+                        ShotgunShotRotation.y = Random.Range(-2f, 2f);
+                        ShotgunShotRotation.x = Random.Range(-2f, 2f);
+                        ShotgunShotRotation.z = Random.Range(-2f, 2f);
+                        ShotgunShotRotation.w = 0;
+                        firePoint.rotation = ShotgunShotRotation;
                         GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
+
+
                         p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
-
-                        Destroy(p);
-
-                        player.GetComponent<Rigidbody>().AddExplosionForce(knockbackPlayer, firingDirection.transform.GetChild(1).position, knockBackRadius);
-
-                        /*else
-                        {
-                        Destroy(p);
-                        player.GetComponent<Rigidbody>().linearVelocity = new Vector3(knockbackPlayer, momentumReset, knockBackRadius);
-                        }*/
-
+                        Destroy(p, projLifespan);
                     }
+
                 }
+
+
+                if (knockBackOn)
+                {
+                    GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
+                    p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
+                    Destroy(p);
+
+                    player.GetComponent<Rigidbody>().AddExplosionForce(knockbackPlayer, firingDirection.transform.GetChild(1).position, knockBackRadius);
+                }
+                clip--;
+                canFire = false;
+                StartCoroutine("cooldownFire");
+                StopCoroutine("shotgunReload");
+            }
         }
     }
 
@@ -255,16 +246,14 @@ public class Weapons : MonoBehaviour
 
     IEnumerator shotgunReload()
     {
-     
+        if (clip <= clipSize)
             while (clip != clipSize && ammo != 0)
             {
             yield return new WaitForSeconds(reloadCooldown);
             ammo--;
-            clip++;                       
-        
-            
+            clip++;                                           
             }
-            
+        
 
         
     }

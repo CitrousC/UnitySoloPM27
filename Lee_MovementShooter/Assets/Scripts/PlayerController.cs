@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     Ray interactRay;
     RaycastHit interactHit;
     Vector2 moveInput = Vector2.zero;
-
+    Ray firingRay;
     public Weapons currentWeapon;
 
     Camera playerCam;
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         jumpRay = new Ray();
         playerCam = Camera.main;
-
+        firingRay = new Ray();
         interactRay = new Ray();
         weaponSlot = playerCam.transform.GetChild(0);
 
@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {       
+    {
         jumpRay.origin = transform.position;
         jumpRay.direction = -transform.up;
         onGround = Physics.Raycast(jumpRay, jumpDetectDistance);
@@ -105,8 +105,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = (tempMove.x * transform.right) +
                         (tempMove.y * transform.up) +
                         (tempMove.z * transform.forward);
-
-
+           
             if (sprinting)
             {
                 if (stamina > 0)
@@ -282,6 +281,7 @@ public class PlayerController : MonoBehaviour
             health=0;
         }
             
+     
        }
 
     private void OnTriggerEnter(Collider other)
