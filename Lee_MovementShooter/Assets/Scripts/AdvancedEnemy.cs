@@ -6,7 +6,6 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class AdvancedEnemy : Enemy
 {
-
     public Vector3 FiringDirection; 
     AdvancedEnemy GunEnemy;
     public bool CanEnemyFire  = false;
@@ -18,10 +17,14 @@ public class AdvancedEnemy : Enemy
       
       player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
       EfirePoint = transform.GetChild(0);
-        
-
+      EnemyGun = EfirePoint.GetChild(0);
       agent = GetComponent<NavMeshAgent>();
-        
+
+
+        EnemyGun.SetPositionAndRotation(EfirePoint.position, EfirePoint.rotation);
+        EnemyGun.GetComponent<Rigidbody>().isKinematic = true;
+        EnemyGun.GetComponent<Collider>().isTrigger = true;
+
     }
 
     // Update is called once per frame
@@ -44,8 +47,8 @@ public class AdvancedEnemy : Enemy
             if (!EnemyFiring)
             {
                 EnemyFiring = true;
-                GameObject e = Instantiate(Enemyprojectile, EfirePoint.position, EfirePoint.rotation);
-                e.GetComponent<Rigidbody>().AddForce(transform.forward * EprojVelocity);
+                GameObject e = Instantiate(Enemyprojectile, EnemyGun.position, EfirePoint.rotation);
+                e.GetComponent<Rigidbody>().AddForce(EnemyGun.forward * EprojVelocity);
                 Destroy(e, EprojLifespan);
                 StartCoroutine("EnemyFireCooldown");
 
@@ -55,7 +58,11 @@ public class AdvancedEnemy : Enemy
         {
             Destroy(gameObject);
         }
+        var pos = player.transform.position;
+        transform.LookAt(pos);
 
+        Vector3 euler = transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Euler(0, euler.y, 0);
 
     }
     IEnumerator EnemyFireCooldown()

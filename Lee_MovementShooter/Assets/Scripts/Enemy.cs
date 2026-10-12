@@ -1,30 +1,30 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Basic Stats")]
     public bool isFollowing = false;
-
     public int Enemyhealth = 3;
     public int EnemymaxHealth = 3;
-
     public float detectionRange = 5;
- 
-    public float attackDuration = 1f;
     public NavMeshAgent agent;
     public PlayerController player;
-    public Transform attackhitbox;
 
+    [Header("Melee")]
+    public float attackDuration = 1f;
+    public Transform attackhitbox;
+   
+
+    [Header("Ranged")]
     public bool EnemyFiring = false;
     public Transform EfirePoint;
     public Transform EfiringDirection;
     public float EprojLifespan;
     public float EprojVelocity;
     public GameObject Enemyprojectile;
-
-
+    public Transform EnemyGun;
+    public Transform GunPoint;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

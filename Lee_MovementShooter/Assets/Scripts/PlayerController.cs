@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     Ray interactRay;
     RaycastHit interactHit;
     Vector2 moveInput = Vector2.zero;
-    Ray firingRay;
+   
     public Weapons currentWeapon;
 
     Camera playerCam;
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         jumpRay = new Ray();
         playerCam = Camera.main;
-        firingRay = new Ray();
+     
         interactRay = new Ray();
         weaponSlot = playerCam.transform.GetChild(0);
 
@@ -324,6 +324,7 @@ public class PlayerController : MonoBehaviour
         Enemyattacking = true;
         yield return new WaitForSeconds(EnemyattackCooldown);
         health--;
+
         Enemyattacking = false;
 
     }
