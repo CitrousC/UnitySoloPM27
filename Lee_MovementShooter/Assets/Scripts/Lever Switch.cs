@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Target : MonoBehaviour
 {
     public bool activated = false;
+    public bool pressurePlate = false;
     public GameObject door;
     public Transform button;
     public int doorID = 0;
@@ -25,15 +26,31 @@ public class Target : MonoBehaviour
         if (activated)
         {
             Destroy(door);
+            if (pressurePlate)
+            {
+                Destroy(transform);
+            }
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Projectile")
+        if (collision.gameObject.tag == "Projectile" && !pressurePlate)
         {
             Destroy (collision.gameObject);
             activated = true;
 
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            
+            if (pressurePlate)
+            {
+                Destroy(door);
+                Destroy(transform);
+            }
         }
     }
 }
