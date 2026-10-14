@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
     public PlayerController player;
+    public Weapons weapons;
 
     public Image healthBar;
     public Image fireMode;
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
             sprintStatus.enabled = player.canSprint;
             if (player.currentWeapon)
             {
+               
                 ammoText.text = "Ammo: " + player.currentWeapon.ammo + "/" + player.currentWeapon.maxAmmo;
                 clipText.text = "Clip: " + player.currentWeapon.clip + "/" + player.currentWeapon.clipSize;
 

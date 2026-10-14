@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        attackhitbox = gameObject.transform.GetChild(0);
+        
     }
 
     // Update is called once per frame
