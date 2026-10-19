@@ -6,11 +6,12 @@ using UnityEngine.UIElements;
 public class Weapons : MonoBehaviour
 {
     PlayerController player;
-
+    AudioSource speaker;
     [Header("Object References")]
     public GameObject projectile;
     public Transform firePoint;
     public Camera firingDirection;
+    public AudioClip[] clips;
 
     [Header("Meta Attributes")]
     public bool canFire = true;
@@ -20,6 +21,7 @@ public class Weapons : MonoBehaviour
     public int weaponID;
     public string weaponName;
     public int knockbackPlayer;
+
     
 
     [Header("Weapon Stats")]

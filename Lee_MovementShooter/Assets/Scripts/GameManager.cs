@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverMenu;
     public bool paused = false;
     public bool gameover = false;
-
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,8 +45,9 @@ public class GameManager : MonoBehaviour
             fireMode = GameObject.Find("FireMode").GetComponent<Image>();
             ammoText = GameObject.Find("AmmoText").GetComponent<TextMeshProUGUI>();
             clipText = GameObject.Find("ClipText").GetComponent<TextMeshProUGUI>();
-
+           
         }
+        
 
 
     }

@@ -388,6 +388,7 @@ MonoBehaviour:
   projectile: {fileID: 913966601358454384, guid: a129ced46f87aef44844f90c8e7bc201, type: 3}
   firePoint: {fileID: 0}
   firingDirection: {fileID: 0}
+  clips: []
   canFire: 1
   holdToAttack: 0
   reloading: 0
@@ -1162,7 +1163,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -783.99994, y: -449.59998}
+  m_AnchoredPosition: {x: -534.3, y: -341.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &190254286
@@ -1237,7 +1238,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -912.69995, y: -242.7}
+  m_AnchoredPosition: {x: -663, y: -134.80003}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &191327747
@@ -2375,7 +2376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -614.69995, y: -267.69995}
+  m_AnchoredPosition: {x: -365, y: -159.79999}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &476907457
@@ -4468,7 +4469,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -784, y: -375}
+  m_AnchoredPosition: {x: -534.30005, y: -267.10004}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &854078177
@@ -4666,13 +4667,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 864221545}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.8046147, z: -0, w: 0.5937973}
-  m_LocalPosition: {x: 0.48700002, y: -0.008000374, z: 0.20199999}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.026, y: -0.008000374, z: 0.202}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1823688467}
-  m_LocalEulerAnglesHint: {x: 0, y: -107.146, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &901920011
 GameObject:
   m_ObjectHideFlags: 0
@@ -5874,7 +5875,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -783.99994, y: -449.59998}
+  m_AnchoredPosition: {x: -534.3, y: -341.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1209303622
@@ -5949,7 +5950,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -913.69995, y: -293}
+  m_AnchoredPosition: {x: -664, y: -185.10004}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1239815950
@@ -6076,13 +6077,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306622285}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0679499, y: -0.76409537, z: 0.068146564, w: 0.63788486}
-  m_LocalPosition: {x: 0.87201476, y: -0.3000002, z: 0.7690139}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.31599998, z: 0.60400015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1823688467}
-  m_LocalEulerAnglesHint: {x: 1, y: -100.192, z: 11}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1348693459
 GameObject:
   m_ObjectHideFlags: 0
@@ -6589,6 +6590,7 @@ MonoBehaviour:
   projectile: {fileID: 913966601358454384, guid: a129ced46f87aef44844f90c8e7bc201, type: 3}
   firePoint: {fileID: 258772004}
   firingDirection: {fileID: 0}
+  clips: []
   canFire: 1
   holdToAttack: 0
   reloading: 0
@@ -8772,7 +8774,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -783.99994, y: -375}
+  m_AnchoredPosition: {x: -534.3, y: -267.10004}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1675006185

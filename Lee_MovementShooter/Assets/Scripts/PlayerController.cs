@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -66,15 +66,19 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Quaternion playerRotation = Quaternion.identity;
-        playerRotation.y = playerCam.transform.rotation.y;
-        playerRotation.w = playerCam.transform.rotation.w;
-        transform.rotation = playerRotation;
-    }
+        
+            }
 
     // Update is called once per frame
     void Update()
     {
+
+
+        Quaternion playerRotation = Quaternion.identity;
+        playerRotation.y = playerCam.transform.rotation.y;
+        playerRotation.w = playerCam.transform.rotation.w;
+        transform.rotation = playerRotation;
+
         jumpRay.origin = transform.position;
         jumpRay.direction = -transform.up;
         onGround = Physics.Raycast(jumpRay, jumpDetectDistance);
@@ -97,6 +101,7 @@ public class PlayerController : MonoBehaviour
                 currentWeapon.fire();
         if (onGround)
         {
+
             Vector3 tempMove = rb.linearVelocity;
 
             tempMove.x = moveInput.x * speed;
@@ -105,7 +110,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = (tempMove.x * transform.right) +
                         (tempMove.y * transform.up) +
                         (tempMove.z * transform.forward);
-           
+
             if (sprinting)
             {
                 if (stamina > 0)
