@@ -21,6 +21,7 @@ TagManager:
   - Door
   - Button
   - LevelEnd
+  - Boss
   layers:
   - Default
   - TransparentFX

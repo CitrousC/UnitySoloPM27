@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
 
     public PlayerController player;
     public Weapons weapons;
+    public Enemy boss;
 
+    public Image bossHealthBar;
     public Image healthBar;
     public Image fireMode;
     public Image staminaBar;
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverMenu;
     public bool paused = false;
     public bool gameover = false;
+    public bool bossfight = false;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,7 +48,8 @@ public class GameManager : MonoBehaviour
             fireMode = GameObject.Find("FireMode").GetComponent<Image>();
             ammoText = GameObject.Find("AmmoText").GetComponent<TextMeshProUGUI>();
             clipText = GameObject.Find("ClipText").GetComponent<TextMeshProUGUI>();
-           
+            if (bossfight)
+            bossHealthBar = GameObject.Find("BossHealth").GetComponent<Image>();
         }
         
 
@@ -60,6 +64,7 @@ public class GameManager : MonoBehaviour
             healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
             staminaBar.fillAmount = player.stamina / player.maxStamina;
             sprintStatus.enabled = player.canSprint;
+            bossHealthBar.fillAmount = boss.Enemyhealth / boss.EnemymaxHealth;
             if (player.currentWeapon)
             {
                

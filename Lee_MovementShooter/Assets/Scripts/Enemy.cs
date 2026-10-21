@@ -1,8 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+
+    
     [Header("Basic Stats")]
     public bool isFollowing = false;
     public int Enemyhealth = 3;
@@ -26,6 +29,11 @@ public class Enemy : MonoBehaviour
     public Transform EnemyGun;
     public Transform GunPoint;
 
+    [Header("Boss")]
+    public bool Boss = false;
+    public bool Summoning = false;
+    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,20 +45,23 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float targetDistance = Vector3.Distance(player.transform.position, transform.position);
-
-        isFollowing = targetDistance <= detectionRange;
-
-        if (isFollowing)
+        if (!Boss)
         {
-            agent.destination = player.transform.position;
-        }
+            float targetDistance = Vector3.Distance(player.transform.position, transform.position);
 
+            isFollowing = targetDistance <= detectionRange;
+
+            if (isFollowing)
+            {
+                agent.destination = player.transform.position;
+            }
+
+
+        }
         if (Enemyhealth <= (0))
         {
             Destroy(gameObject);
         }
-
     }
     private void OnCollisionEnter(Collision collision)
     {

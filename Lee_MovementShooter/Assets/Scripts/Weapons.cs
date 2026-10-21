@@ -122,6 +122,7 @@ public class Weapons : MonoBehaviour
     }
     public void fire()
     {
+        
         if (clipSize > 0 && canFire && !reloading)
         {
             if (!shotgun)

@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: ce4d9192e4f567349a93e69366ecb8b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -314,6 +314,9 @@ MonoBehaviour:
   EprojVelocity: 1000
   Enemyprojectile: {fileID: 1942315521374545914, guid: f60a2716349c4d349afee62b1f0f23b8, type: 3}
   EnemyGun: {fileID: 0}
+  GunPoint: {fileID: 0}
+  Boss: 0
+  Summoning: 0
   FiringDirection: {x: 0, y: 0, z: 0}
   CanEnemyFire: 1
   EnemyfireCooldown: 2
