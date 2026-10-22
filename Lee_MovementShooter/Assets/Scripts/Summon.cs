@@ -1,24 +1,48 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Summon : MonoBehaviour
 {
     public GameObject summoned;
     public bool summoning = false;
-
+    public float summonCDtime = 3f;
+    public bool destroyable = false;
+    public int summonerhealth = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-  
+
     // Update is called once per frame
-    void Update()
+
+   
+    private void Update()
     {
-        if (summoning)
+      if (summonerhealth == 0)
         {
+            Destroy(gameObject);
+        }
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (!summoning)
+        {
+            summoning = true;
             StartCoroutine("SummonThing");
         }
     }
-
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Projectile" && destroyable)
+        {
+            Destroy(collision.gameObject);
+            summonerhealth--;
+        }
+    }
     IEnumerator SummonThing()
     {
+
         GameObject s = Instantiate(summoned, transform.position, transform.rotation);
+        s = summoned;
+        yield return new WaitForSeconds(summonCDtime);
+        summoning = false;
     }
 }
