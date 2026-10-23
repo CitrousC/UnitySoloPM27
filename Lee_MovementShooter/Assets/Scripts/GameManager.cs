@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     public PlayerController player;
     public Weapons weapons;
-    public Enemy boss;
+    public BossFight boss;
 
     public Image bossHealthBar;
     public Image healthBar;
@@ -43,13 +43,15 @@ public class GameManager : MonoBehaviour
             gameOverMenu = GameObject.FindGameObjectWithTag("GameOver");
             gameOverMenu.SetActive(gameover);
 
+
+
             staminaBar = GameObject.Find("SprintBar").GetComponent<Image>();
             healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
             fireMode = GameObject.Find("FireMode").GetComponent<Image>();
             ammoText = GameObject.Find("AmmoText").GetComponent<TextMeshProUGUI>();
             clipText = GameObject.Find("ClipText").GetComponent<TextMeshProUGUI>();
-            if (bossfight)
             bossHealthBar = GameObject.Find("BossHealth").GetComponent<Image>();
+
         }
         
 
@@ -64,7 +66,7 @@ public class GameManager : MonoBehaviour
             healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
             staminaBar.fillAmount = player.stamina / player.maxStamina;
             sprintStatus.enabled = player.canSprint;
-            bossHealthBar.fillAmount = boss.Enemyhealth / boss.EnemymaxHealth;
+            bossHealthBar.enabled = (boss.bossfightStart);
             if (player.currentWeapon)
             {
                
@@ -101,7 +103,12 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
             Time.timeScale = 0;
         }
+        if (boss.bossfightStart)
+        {
         
+            bossHealthBar.fillAmount = (float)boss.bossHP / (float)boss.bossMaxHP;
+           
+        }
     }
 
     public void Pause()
@@ -131,7 +138,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel(int levelID)
     {
-        if (levelID >= SceneManager.sceneCountInBuildSettings)
+        if (levelID > SceneManager.sceneCountInBuildSettings)
             Debug.Log("Level ID is too high: " + levelID);
         else
             SceneManager.LoadScene(levelID);

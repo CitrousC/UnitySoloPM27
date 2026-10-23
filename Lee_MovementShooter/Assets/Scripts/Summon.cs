@@ -6,8 +6,9 @@ public class Summon : MonoBehaviour
 {
     public GameObject summoned;
     public bool summoning = false;
-    public float summonCDtime = 3f;
+       
     public bool destroyable = false;
+    public float summonCDtime = 3f;
     public int summonerhealth = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -16,20 +17,24 @@ public class Summon : MonoBehaviour
    
     private void Update()
     {
-      if (summonerhealth == 0)
+      if (summonerhealth <= 0)
         {
             Destroy(gameObject);
         }
     }
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
-        if (!summoning)
+        if (other.gameObject.tag == ("Player"))
         {
-            summoning = true;
-            StartCoroutine("SummonThing");
+            if (!summoning)
+            {
+                summoning = true;
+                StartCoroutine("SummonThing");
+            }
         }
     }
-    public void OnCollisionEnter(Collision collision)
+  
+    public void OnTriggerEnter (Collider collision)
     {
         if (collision.gameObject.tag == "Projectile" && destroyable)
         {

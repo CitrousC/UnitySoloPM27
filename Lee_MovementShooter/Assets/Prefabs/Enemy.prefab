@@ -129,7 +129,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -173,8 +173,18 @@ MonoBehaviour:
   isFollowing: 0
   Enemyhealth: 3
   EnemymaxHealth: 3
-  detectionRange: 5
-  attackCooldown: 1.5
+  detectionRange: 20
   agent: {fileID: 276570907485013669}
   player: {fileID: 0}
-  attacking: 0
+  attackDuration: 1
+  attackhitbox: {fileID: 0}
+  EnemyFiring: 0
+  EfirePoint: {fileID: 0}
+  EfiringDirection: {fileID: 0}
+  EprojLifespan: 0
+  EprojVelocity: 0
+  Enemyprojectile: {fileID: 0}
+  EnemyGun: {fileID: 0}
+  GunPoint: {fileID: 0}
+  Boss: 0
+  Summoning: 0
