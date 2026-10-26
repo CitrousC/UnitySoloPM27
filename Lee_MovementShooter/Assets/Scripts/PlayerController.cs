@@ -46,6 +46,9 @@ public class PlayerController : MonoBehaviour
     Camera playerCam;
     public Transform weaponSlot;
     PlayerInput input;
+
+    AudioSource speaker;
+    
     Rigidbody rb;
     public GameObject pickupObj;
 
@@ -60,8 +63,8 @@ public class PlayerController : MonoBehaviour
         interactRay = new Ray();
         weaponSlot = playerCam.transform.GetChild(0);
 
-        
-        
+        speaker = GetComponent<AudioSource>();
+
     }
 
     private void FixedUpdate()
@@ -72,8 +75,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         Quaternion playerRotation = Quaternion.identity;
         playerRotation.y = playerCam.transform.rotation.y;
         playerRotation.w = playerCam.transform.rotation.w;
@@ -105,7 +106,10 @@ public class PlayerController : MonoBehaviour
             Vector3 tempMove = rb.linearVelocity;
 
             tempMove.x = moveInput.x * speed;
-            tempMove.z = moveInput.y * speed;
+            if (!sprinting)
+            {
+                tempMove.z = moveInput.y * speed;
+            }
 
             rb.linearVelocity = (tempMove.x * transform.right) +
                         (tempMove.y * transform.up) +
@@ -115,7 +119,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (stamina > 0)
                 {
-                    tempMove.z *= sprintBoost;
+                    tempMove.z = moveInput.y * speed * sprintBoost;
 
                     stamina -= sprintCost * Time.deltaTime;
 
@@ -271,6 +275,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Hazard")
         {
             health--;
+            speaker.Play();
         }
 
     
@@ -299,6 +304,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(other.gameObject);
             health--;
+            speaker.Play();
         }
     }
     private void OnTriggerStay(Collider other)
@@ -329,7 +335,7 @@ public class PlayerController : MonoBehaviour
         Enemyattacking = true;
         yield return new WaitForSeconds(EnemyattackCooldown);
         health--;
-
+        speaker.Play();
         Enemyattacking = false;
 
     }

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossFight : MonoBehaviour
@@ -8,6 +9,7 @@ public class BossFight : MonoBehaviour
     public GameObject spawnedObject;
     public GameObject physicalAttack;
     public bool bossfightStart = false;
+    public bool PhysicalAttacking = false;
 
     [Header("Basic Stats")]
     public int bossHP = 100;
@@ -33,6 +35,10 @@ public class BossFight : MonoBehaviour
             {
                 StartCoroutine("SummonAttack");
 
+            }
+            if (attack == 2)
+            {
+                StartCoroutine("PhysicalAttack");
             }
         }
         if (bossHP <= 0)
@@ -64,6 +70,13 @@ public class BossFight : MonoBehaviour
         GameObject s = Instantiate(spawnedObject, SummonPos, transform.rotation);
         s = spawnedObject;
         yield return new WaitForSeconds(summonCD);
+
+    }
+
+    IEnumerator PhysicalAttack()
+    {
+        physicalAttack.transform.GetChild(Random.Range(0, 2));
+        
 
     }
 }

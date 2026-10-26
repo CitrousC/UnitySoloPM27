@@ -7,6 +7,7 @@ public class Weapons : MonoBehaviour
 {
     PlayerController player;
     AudioSource speaker;
+
     [Header("Object References")]
     public GameObject projectile;
     public Transform firePoint;
@@ -45,6 +46,7 @@ public class Weapons : MonoBehaviour
     void Start()
     {
         firePoint = transform.GetChild(0);
+        speaker = GetComponent<AudioSource>();
         firingDirection = Camera.main;
     }
     public void equip(PlayerController p)
@@ -125,6 +127,7 @@ public class Weapons : MonoBehaviour
         
         if (clipSize > 0 && canFire && !reloading)
         {
+            speaker.Play();
             if (!shotgun)
             {
                 firePoint.rotation = transform.rotation;
