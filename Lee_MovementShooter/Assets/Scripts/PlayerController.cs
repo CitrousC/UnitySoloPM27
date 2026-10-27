@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     PlayerInput input;
 
     AudioSource speaker;
+    BossFight boss;
     
     Rigidbody rb;
     public GameObject pickupObj;
@@ -305,6 +306,10 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             health--;
             speaker.Play();
+        }
+        if (other.gameObject.tag == "FightSTart")
+        {
+            boss.bossfightStart = true;
         }
     }
     private void OnTriggerStay(Collider other)

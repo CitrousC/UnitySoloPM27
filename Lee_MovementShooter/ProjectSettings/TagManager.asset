@@ -22,6 +22,7 @@ TagManager:
   - Button
   - LevelEnd
   - Boss
+  - BossStart
   layers:
   - Default
   - TransparentFX

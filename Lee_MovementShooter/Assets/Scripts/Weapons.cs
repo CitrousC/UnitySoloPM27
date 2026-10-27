@@ -127,9 +127,10 @@ public class Weapons : MonoBehaviour
         
         if (clipSize > 0 && canFire && !reloading)
         {
-            speaker.Play();
+            
             if (!shotgun)
             {
+                
                 firePoint.rotation = transform.rotation;
                 clip--;
                 GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
@@ -138,7 +139,7 @@ public class Weapons : MonoBehaviour
                 canFire = false;
                 StartCoroutine("cooldownFire");
                 StopCoroutine("shotgunReload");
-
+               
                 if (knockBackOn)
                 {
                     //if (player.GetComponent<Rigidbody>().linearVelocity.y >= 0)
@@ -162,6 +163,7 @@ public class Weapons : MonoBehaviour
                     //repeat nine times
                     for (int i = 0; i < 9; i++)
                     {
+                        
                         Quaternion ShotgunShotRotation = Quaternion.identity;
                         ShotgunShotRotation.y = Random.Range(-2f, 2f);
                         ShotgunShotRotation.x = Random.Range(-2f, 2f);
@@ -169,7 +171,7 @@ public class Weapons : MonoBehaviour
                         ShotgunShotRotation.w = 0;
                         firePoint.rotation = ShotgunShotRotation;
                         GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
-
+                        
 
                         p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
                         Destroy(p, projLifespan);
@@ -236,6 +238,7 @@ public class Weapons : MonoBehaviour
 
     IEnumerator cooldownFire()
     {
+        speaker.Play();
         yield return new WaitForSeconds(rof);
 
         if(clip>0)

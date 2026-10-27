@@ -44,6 +44,7 @@ public class BossFight : MonoBehaviour
         if (bossHP <= 0)
         {
             Destroy(gameObject);
+            bossfightStart = false;
         }
     }
     private void OnCollisionEnter(Collision collision)
@@ -73,10 +74,10 @@ public class BossFight : MonoBehaviour
 
     }
 
-    IEnumerator PhysicalAttack()
+ /*   IEnumerator PhysicalAttack()
     {
         physicalAttack.transform.GetChild(Random.Range(0, 2));
         
 
-    }
+    }*/
 }

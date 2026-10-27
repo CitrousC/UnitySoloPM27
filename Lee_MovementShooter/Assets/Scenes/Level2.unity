@@ -368,7 +368,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: b17438329716d004d83be5e6852f5a1b, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2087,8 +2087,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7119914, y: 1, z: 0.91004264}
-  m_Center: {x: 0.14400558, y: 0, z: 0.012053656}
+  m_Size: {x: 1.0152531, y: 1, z: 0.91004264}
+  m_Center: {x: -0.0076249023, y: 0, z: 0.0120536685}
 --- !u!23 &293222218
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4996,6 +4996,7 @@ MonoBehaviour:
   spawnedObject: {fileID: 0}
   physicalAttack: {fileID: 0}
   bossfightStart: 0
+  PhysicalAttacking: 0
   bossHP: 100
   bossMaxHP: 100
   attack: 0
@@ -6522,7 +6523,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: daf933d657391e24190c52eb2e121d2e, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
