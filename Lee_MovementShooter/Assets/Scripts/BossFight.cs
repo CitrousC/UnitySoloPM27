@@ -27,7 +27,7 @@ public class BossFight : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
+        gameObject.SetActive(bossfightStart);
         if (!attacking && bossfightStart)
         {
             StartCoroutine("BossAttacks");

@@ -255,14 +255,17 @@ public class Weapons : MonoBehaviour
 
     IEnumerator shotgunReload()
     {
-        if (clip <= clipSize)
+        if (clip < clipSize)
             while (clip != clipSize && ammo != 0)
             {
             yield return new WaitForSeconds(reloadCooldown);
             ammo--;
             clip++;                                           
             }
-        
+        if (clip == clipSize)
+        {
+            StopCoroutine("shotgunReload");
+        }
 
         
     }

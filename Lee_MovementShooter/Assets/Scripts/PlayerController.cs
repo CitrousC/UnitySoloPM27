@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public bool regenStamina = false;
     public bool toggleSprint = true;
     public bool sprintlock = false;
+    public AudioClip[] clips;
 
 
     public float EnemyattackCooldown = 2;
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour
     PlayerInput input;
 
     AudioSource speaker;
-    BossFight boss;
+    public BossFight boss;
     
     Rigidbody rb;
     public GameObject pickupObj;
@@ -266,6 +267,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ammo" && currentWeapon && currentWeapon.ammo < currentWeapon.maxAmmo)
         {
             int refillAmt = currentWeapon.maxAmmo - currentWeapon.ammo;
+
             if (refillAmt >= currentWeapon.maxAmmo)
             {
                 currentWeapon.ammo = currentWeapon.maxAmmo;
@@ -307,7 +309,7 @@ public class PlayerController : MonoBehaviour
             health--;
             speaker.Play();
         }
-        if (other.gameObject.tag == "FightSTart")
+        if (other.gameObject.tag == "BossStart")
         {
             boss.bossfightStart = true;
         }
