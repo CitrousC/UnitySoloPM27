@@ -22,14 +22,18 @@ public class BossFight : MonoBehaviour
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
 
     // Update is called once per frame
     private void Update()
     {
-        gameObject.SetActive(bossfightStart);
+        
         if (!attacking && bossfightStart)
         {
+            gameObject.SetActive(true);
             StartCoroutine("BossAttacks");
             if (attack == 1) //Summon Attack.
             {

@@ -4,8 +4,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    AudioSource speaker;
 
-    
     [Header("Basic Stats")]
     public bool isFollowing = false;
     public int Enemyhealth = 3;
@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        
+        speaker = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -60,7 +60,9 @@ public class Enemy : MonoBehaviour
         }
         if (Enemyhealth <= (0))
         {
+            speaker.Play();
             Destroy(gameObject);
+       
         }
     }
     private void OnCollisionEnter(Collision collision)
